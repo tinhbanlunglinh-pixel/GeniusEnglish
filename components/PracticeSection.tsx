@@ -57,9 +57,9 @@ const MultipleChoiceCard: React.FC<{ q: MultipleChoiceQ, index: number, onAnswer
     };
     return (
         <div className="bg-white p-6 rounded-2xl border-2 border-slate-100 shadow-sm hover:border-brand-200 transition-colors">
-            <div className="flex gap-3 mb-4">
-                <span className="bg-brand-100 text-brand-700 font-black px-3 py-1 rounded-lg h-fit border border-brand-200 shrink-0">Câu {index}</span>
-                <p className="font-bold text-lg text-slate-800 break-words flex-1 min-w-0">{q.question}</p>
+            <div className="flex gap-3 mb-4 items-start">
+                <span className="bg-brand-100 text-brand-700 font-black px-3 py-1 rounded-lg h-fit border border-brand-200 shrink-0 text-sm">Câu {index}</span>
+                <p className="font-bold text-base md:text-lg text-slate-800 break-words flex-1 min-w-0 leading-snug">{q.question}</p>
             </div>
             <div className="grid gap-3">
                 {(q.options || []).map((opt, i) => (
@@ -89,7 +89,7 @@ const ScrambleCard: React.FC<{ q: ScrambleQ, index: number, onAnswer: (correct: 
                 <span className="bg-orange-100 text-orange-700 font-black px-3 py-1 rounded-lg shrink-0">Câu {index}</span>
                 <p className="text-slate-500 text-xs font-bold uppercase py-1">Sắp xếp câu</p>
             </div>
-            <div className="bg-orange-50 p-3 rounded-xl mb-4 italic text-slate-600 border border-orange-100">"{q.translation}"</div>
+            <div className="bg-orange-50 p-3 rounded-xl mb-4 italic text-slate-600 border border-orange-100 break-words">"{q.translation}"</div>
             <div className={`min-h-[60px] p-4 rounded-xl border-2 mb-4 flex flex-wrap gap-2 ${status === 'correct' ? 'bg-green-50 border-green-500' : (status === 'wrong' ? 'bg-red-50 border-red-500' : 'bg-slate-50 border-slate-200')}`}>
                 {currentOrder.map((word, i) => (
                     <button key={i} onClick={() => !submitted && (setAvailable([...available, word]), setCurrentOrder(currentOrder.filter((_, idx) => idx !== i)))} className="bg-white px-2 py-1 rounded shadow-sm border border-slate-200 hover:bg-slate-50">{word}</button>
@@ -121,9 +121,9 @@ const FillBlankCard: React.FC<{ q: FillInputQ, index: number, onAnswer: (correct
     return (
         <div className="bg-white p-6 rounded-2xl border-2 border-slate-100 shadow-sm relative overflow-hidden">
             <div className="absolute top-2 right-2 text-6xl opacity-10 pointer-events-none">{q.clueEmoji}</div>
-            <div className="flex gap-3 mb-4">
-                <span className="bg-blue-100 text-blue-700 font-black px-3 py-1 rounded-lg shrink-0">Câu {index}</span>
-                <p className="font-bold text-lg">{q.question.replace('___', '______')}</p>
+            <div className="flex gap-3 mb-4 items-start">
+                <span className="bg-blue-100 text-blue-700 font-black px-3 py-1 rounded-lg shrink-0 text-sm">Câu {index}</span>
+                <p className="font-bold text-base md:text-lg break-words flex-1 min-w-0 leading-snug">{q.question.replace('___', '______')}</p>
             </div>
             <div className="flex gap-2 relative z-10">
                 <input type="text" value={input} onChange={e => setInput(e.target.value)} disabled={submitted} placeholder="Nhập từ còn thiếu..." className="flex-1 p-4 border-2 rounded-xl font-bold focus:border-blue-500 outline-none" />
@@ -147,9 +147,9 @@ const ErrorIdCard: React.FC<{ q: ErrorIdQ, index: number, onAnswer: (correct: bo
     };
     return (
         <div className="bg-white p-6 rounded-2xl border-2 border-slate-100 shadow-sm hover:border-red-200 transition-colors">
-            <div className="flex gap-3 mb-4">
-                <span className="bg-red-100 text-red-700 font-black px-3 py-1 rounded-lg shrink-0">Câu {index}</span>
-                <p className="font-bold text-lg">Tìm lỗi sai: "{q.sentence}"</p>
+            <div className="flex gap-3 mb-4 items-start">
+                <span className="bg-red-100 text-red-700 font-black px-3 py-1 rounded-lg shrink-0 text-sm">Câu {index}</span>
+                <p className="font-bold text-base md:text-lg break-words flex-1 min-w-0 leading-snug">Tìm lỗi sai: "{q.sentence}"</p>
             </div>
             <div className="grid grid-cols-3 gap-3">
                 {(q.options || []).map((opt, i) => (
@@ -259,33 +259,33 @@ export const PracticeSection: React.FC<{ content: PracticeContent }> = ({ conten
 
                 <div className="grid gap-10 max-w-4xl mx-auto px-2">
                     <div className="space-y-6">
-                        <div className="flex items-center gap-4 mb-4">
-                            <div className="w-12 h-12 bg-brand-400 rounded-2xl flex items-center justify-center text-2xl shadow-md border-2 border-brand-500 font-black">A</div>
-                            <h3 className="text-2xl font-black text-brand-800 font-display">TRẮC NGHIỆM TỔNG HỢP</h3>
+                        <div className="flex items-center gap-3 mb-4 flex-wrap">
+                            <div className="w-10 h-10 md:w-12 md:h-12 bg-brand-400 rounded-2xl flex items-center justify-center text-xl md:text-2xl shadow-md border-2 border-brand-500 font-black shrink-0">A</div>
+                            <h3 className="text-xl md:text-2xl font-black text-brand-800 font-display">TRẮC NGHIỆM TỔNG HỢP</h3>
                         </div>
                         {content.multipleChoice.map((q, i) => <MultipleChoiceCard key={q.id} q={q} index={i+1} onAnswer={c => setScoreMap(p => ({...p, [q.id]: c}))} />)}
                     </div>
                     
                     <div className="space-y-6">
-                        <div className="flex items-center gap-4 mb-4">
-                            <div className="w-12 h-12 bg-orange-400 rounded-2xl flex items-center justify-center text-2xl shadow-md border-2 border-orange-500 font-black">B</div>
-                            <h3 className="text-2xl font-black text-orange-800 font-display">SẮP XẾP CÂU HOÀN CHỈNH</h3>
+                        <div className="flex items-center gap-3 mb-4 flex-wrap">
+                            <div className="w-10 h-10 md:w-12 md:h-12 bg-orange-400 rounded-2xl flex items-center justify-center text-xl md:text-2xl shadow-md border-2 border-orange-500 font-black shrink-0">B</div>
+                            <h3 className="text-xl md:text-2xl font-black text-orange-800 font-display">SẮP XẾP CÂU HOÀN CHỈNH</h3>
                         </div>
                         {content.scramble.map((q, i) => <ScrambleCard key={q.id} q={q} index={i+1+content.multipleChoice.length} onAnswer={c => setScoreMap(p => ({...p, [q.id]: c}))} />)}
                     </div>
 
                     <div className="space-y-6">
-                        <div className="flex items-center gap-4 mb-4">
-                            <div className="w-12 h-12 bg-blue-400 rounded-2xl flex items-center justify-center text-2xl shadow-md border-2 border-blue-500 font-black">C</div>
-                            <h3 className="text-2xl font-black text-blue-800 font-display">ĐIỀN TỪ CÒN THIẾU</h3>
+                        <div className="flex items-center gap-3 mb-4 flex-wrap">
+                            <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-400 rounded-2xl flex items-center justify-center text-xl md:text-2xl shadow-md border-2 border-blue-500 font-black shrink-0">C</div>
+                            <h3 className="text-xl md:text-2xl font-black text-blue-800 font-display">ĐIỀN TỪ CÒN THIẾU</h3>
                         </div>
                         {content.fillBlank.map((q, i) => <FillBlankCard key={q.id} q={q} index={i+1+content.multipleChoice.length+content.scramble.length} onAnswer={c => setScoreMap(p => ({...p, [q.id]: c}))} />)}
                     </div>
 
                     <div className="space-y-6">
-                        <div className="flex items-center gap-4 mb-4">
-                            <div className="w-12 h-12 bg-red-400 rounded-2xl flex items-center justify-center text-2xl shadow-md border-2 border-red-500 font-black">D</div>
-                            <h3 className="text-2xl font-black text-red-800 font-display">THỬ THÁCH TÌM LỖ SAI</h3>
+                        <div className="flex items-center gap-3 mb-4 flex-wrap">
+                            <div className="w-10 h-10 md:w-12 md:h-12 bg-red-400 rounded-2xl flex items-center justify-center text-xl md:text-2xl shadow-md border-2 border-red-500 font-black shrink-0">D</div>
+                            <h3 className="text-xl md:text-2xl font-black text-red-800 font-display">THỬ THÁCH TÌM LỖ SAI</h3>
                         </div>
                         {content.errorIdentification.map((q, i) => <ErrorIdCard key={q.id} q={q} index={i+1+content.multipleChoice.length+content.scramble.length+content.fillBlank.length} onAnswer={c => setScoreMap(p => ({...p, [q.id]: c}))} />)}
                     </div>

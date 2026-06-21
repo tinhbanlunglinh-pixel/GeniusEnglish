@@ -70,7 +70,7 @@ function App() {
   return (
     <div className="min-h-screen bg-brand-50 flex flex-col font-sans">
       <header className="bg-brand-400 border-b-4 border-brand-500 sticky top-0 z-50 shadow-md">
-        <div className="max-w-7xl mx-auto px-4 py-3 md:py-0 md:h-20 flex flex-col md:flex-row items-center justify-between gap-3 md:gap-0">
+        <div className="max-w-7xl mx-auto px-3 py-3 md:py-0 md:h-20 flex flex-col md:flex-row items-center justify-between gap-3 md:gap-0">
           <div className="flex items-center gap-3 shrink-0">
             <div className="w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center cursor-pointer select-none overflow-hidden border-2 border-brand-100" onClick={() => setActiveTab('planner')}>
               <img src="https://i.postimg.cc/FRgG3qSw/409332660-1038772744108136-6635348450087051296-n.jpg" alt="Cô Lợi" className="w-full h-full object-cover" />
@@ -80,18 +80,14 @@ function App() {
               <span className="text-[10px] md:text-xs font-bold text-brand-800 uppercase tracking-widest opacity-80">Cô Lợi - Thắp sáng tiềm năng</span>
             </div>
           </div>
-          <div className="flex bg-brand-500 rounded-full p-1 gap-1 overflow-x-auto no-scrollbar max-w-full shadow-inner">
+          <div className="flex flex-wrap bg-brand-500 rounded-2xl md:rounded-full p-1 gap-1 max-w-full shadow-inner justify-center">
              <button onClick={() => setActiveTab('planner')} className={`px-4 py-1.5 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeTab === 'planner' ? 'bg-white text-brand-700 shadow-sm' : 'text-brand-100 hover:bg-brand-600'}`}>Lesson Planner</button>
              <button onClick={() => setActiveTab('prompt')} className={`px-4 py-1.5 rounded-full font-bold text-sm transition-all whitespace-nowrap flex items-center gap-1 ${activeTab === 'prompt' ? 'bg-white text-brand-700 shadow-sm' : 'text-brand-100 hover:bg-brand-600'}`}>🌈 Prompt Gen</button>
-             <a href="https://www.tienganhchotreem.com/" target="_blank" rel="noopener noreferrer" className="px-4 py-1.5 rounded-full font-bold text-sm text-brand-100 hover:bg-brand-600 transition-all flex items-center gap-1 whitespace-nowrap">
-                📚 Truyện tiếng Anh cho bé
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-             </a>
           </div>
           <div className="shrink-0 flex items-center mt-2 md:mt-0">
-             <button onClick={() => setIsSettingsOpen(true)} className="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-full font-bold text-sm transition-all whitespace-nowrap flex items-center gap-2 shadow-md border-2 border-slate-700">
-               ⚙️ Cài đặt
-               <span className="text-brand-300 text-xs font-medium tracking-wide">(Lấy API key để sử dụng app)</span>
+             <button onClick={() => setIsSettingsOpen(true)} className="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-full font-bold text-sm transition-all flex items-center gap-2 shadow-md border-2 border-slate-700 flex-wrap justify-center">
+               <span className="whitespace-nowrap">⚙️ Cài đặt</span>
+               <span className="text-brand-300 text-xs font-medium tracking-wide whitespace-nowrap">(Lấy API key để sử dụng app)</span>
              </button>
           </div>
         </div>
@@ -160,9 +156,10 @@ function App() {
                 )}
                 {lesson && (
                   <div className="space-y-12 animate-fade-in pb-20">
-                    <div className="text-center py-8">
+                    <div className="text-center py-8 px-2">
                       <span className="inline-block px-4 py-1 rounded-full bg-brand-100 text-brand-700 text-sm font-black uppercase mb-4">{lesson.level}</span>
-                      <h1 className="text-5xl md:text-7xl font-black text-slate-800 font-display capitalize">{lesson.topic}</h1>
+                      <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">TOPIC OF THE DAY</p>
+                      <h1 className="text-4xl md:text-7xl font-black text-slate-800 font-display capitalize break-words overflow-wrap-anywhere leading-tight">{lesson.topic}</h1>
                       <button 
                         onClick={() => exportLessonPlanToWord(lesson)} 
                         className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-full font-black text-lg shadow-lg hover:bg-blue-700 hover:-translate-y-1 transition-all mx-auto flex items-center gap-2"

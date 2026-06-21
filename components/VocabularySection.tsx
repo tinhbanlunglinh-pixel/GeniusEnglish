@@ -16,8 +16,8 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({ items = []
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-slate-800">Vocabulary List</h2>
+      <div className="flex flex-wrap justify-between items-center gap-2">
+        <h2 className="text-2xl font-bold text-slate-800 flex items-center gap-2">📖 New Words</h2>
         <button
           onClick={() => setShowMeaning(!showMeaning)}
           className="text-sm bg-white border border-slate-200 px-3 py-1.5 rounded-lg hover:bg-slate-50 transition-colors flex items-center gap-2 text-slate-600 font-medium"
@@ -28,25 +28,25 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({ items = []
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {items.map((item, idx) => (
-            <div key={idx} className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex gap-4 hover:shadow-md transition-shadow duration-200 items-start">
-              <div className="shrink-0 relative group mt-1 w-24 h-24 bg-slate-50 rounded-xl overflow-hidden border border-slate-100 flex items-center justify-center">
-                 <span className="text-6xl select-none">{item.emoji || '📝'}</span>
+            <div key={idx} className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex gap-3 hover:shadow-md transition-shadow duration-200 items-start">
+              <div className="shrink-0 relative group mt-1 w-16 h-16 md:w-24 md:h-24 bg-slate-50 rounded-xl overflow-hidden border border-slate-100 flex items-center justify-center">
+                 <span className="text-4xl md:text-6xl select-none">{item.emoji || '📝'}</span>
               </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="text-2xl font-black text-brand-900 truncate">{item.word}</h3>
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="text-slate-500 text-sm font-mono bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">/{item.ipa}/</span>
+              <div className="flex-1 min-w-0 overflow-hidden">
+                <div className="flex items-start gap-2">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-xl md:text-2xl font-black text-brand-900 break-words leading-tight">{item.word}</h3>
+                    <div className="flex flex-wrap items-center gap-1.5 mt-1">
+                      <span className="text-slate-500 text-xs md:text-sm font-mono bg-slate-100 px-1.5 py-0.5 rounded-md border border-slate-200">/{item.ipa}/</span>
                       <span className="text-xs bg-brand-50 text-brand-600 px-1.5 py-0.5 rounded font-bold uppercase">{item.type}</span>
                     </div>
                   </div>
                   <button 
                     onClick={() => playAudio(item.word)}
-                    className="p-2.5 rounded-full bg-brand-100 text-brand-600 hover:bg-brand-500 hover:text-white transition-all transform active:scale-95 shadow-sm"
+                    className="p-2 md:p-2.5 rounded-full bg-brand-100 text-brand-600 hover:bg-brand-500 hover:text-white transition-all transform active:scale-95 shadow-sm shrink-0"
                     title="Listen to word"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
                   </button>
                 </div>
                 
@@ -55,7 +55,7 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({ items = []
                 </div>
 
                 <div className="mt-3 bg-slate-50 p-3 rounded-lg border border-slate-100 relative group/example">
-                  <p className="text-slate-600 text-sm italic leading-relaxed pr-2 md:pr-8 font-medium">
+                  <p className="text-slate-600 text-sm italic leading-relaxed pr-8 font-medium break-words">
                     "{item.example}"
                   </p>
                   {showMeaning && item.sentenceMeaning && (
