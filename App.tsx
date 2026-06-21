@@ -19,6 +19,12 @@ function App() {
   useEffect(() => {
     const handleOpenSettings = () => setIsSettingsOpen(true);
     window.addEventListener('open-settings', handleOpenSettings as EventListener);
+    
+    // Tự động mở Setting nếu chưa có API Key
+    if (!localStorage.getItem('api_key')) {
+      setIsSettingsOpen(true);
+    }
+    
     return () => window.removeEventListener('open-settings', handleOpenSettings as EventListener);
   }, []);
   
@@ -78,7 +84,10 @@ function App() {
              <button onClick={() => setActiveTab('story')} className={`px-4 py-1.5 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeTab === 'story' ? 'bg-white text-brand-700 shadow-sm' : 'text-brand-100 hover:bg-brand-600'}`}>✨ Magic Story</button>
              <button onClick={() => setActiveTab('mindmap')} className={`px-4 py-1.5 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeTab === 'mindmap' ? 'bg-white text-brand-700 shadow-sm' : 'text-brand-100 hover:bg-brand-600'}`}>🎨 Mind Map</button>
              <button onClick={() => setActiveTab('prompt')} className={`px-4 py-1.5 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeTab === 'prompt' ? 'bg-white text-brand-700 shadow-sm' : 'text-brand-100 hover:bg-brand-600'}`}>🌈 Prompt Gen</button>
-             <button onClick={() => setIsSettingsOpen(true)} className="px-4 py-1.5 rounded-full font-bold text-sm text-brand-100 hover:bg-brand-600 transition-all whitespace-nowrap">⚙️ Cài đặt</button>
+             <button onClick={() => setIsSettingsOpen(true)} className="px-4 py-1.5 rounded-full font-bold text-sm text-brand-100 hover:bg-brand-600 transition-all whitespace-nowrap flex items-center gap-1">
+               ⚙️ Cài đặt
+               <span className="text-red-300 text-xs">(Lấy API key để sử dụng app)</span>
+             </button>
              <a href="https://www.tienganhchotreem.com/" target="_blank" rel="noopener noreferrer" className="px-4 py-1.5 rounded-full font-bold text-sm text-brand-100 hover:bg-brand-600 transition-all flex items-center gap-1 whitespace-nowrap">
                 📚 Truyện Tiếng Anh
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -148,7 +157,7 @@ function App() {
                             </button>
                             <button onClick={() => {
                               setError(null);
-                              initializeGeminiChat();
+                              initializeGeminiChat(localStorage.getItem('api_key') || undefined);
                               setTimeout(() => handleGenerate(), 100);
                             }} className="px-6 py-2 bg-slate-800 text-white rounded-xl font-bold hover:bg-slate-900 transition-colors shadow-sm">
                               🔄 Thử lại
@@ -216,7 +225,24 @@ function App() {
              </div>
           </div>
        </footer>
-       <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} onSave={() => {}} />
+       <SettingsModal 
+         isOpen={isSettingsOpen} 
+         onClose={() => setIsSettingsOpen(false)} 
+         onSave={(key, model) => {
+           if (key) localStorage.setItem('api_key', key);
+           else localStorage.removeItem('api_key');
+           localStorage.setItem('selected_model', model);
+           setIsSettingsOpen(false);
+           
+           if (error) {
+             setError(null);
+             initializeGeminiChat(key || undefined);
+             setTimeout(() => handleGenerate(), 100);
+           } else {
+             initializeGeminiChat(key || undefined);
+           }
+         }} 
+       />
     </div>
   );
 }

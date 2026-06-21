@@ -1,38 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import { initializeGeminiChat } from '../services/geminiService';
 
 interface SettingsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: () => void;
+  onSave: (key: string, model: string) => void;
 }
+
+const MODELS = [
+  { id: 'gemini-3-flash-preview', name: 'Gemini 3 Flash', desc: 'Nhanh, mặc định' },
+  { id: 'gemini-3-pro-preview', name: 'Gemini 3 Pro', desc: 'Thông minh nhất' },
+  { id: 'gemini-2.5-flash', name: 'Gemini 2.5 Flash', desc: 'Ổn định, dự phòng' }
+];
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSave }) => {
   const [apiKey, setApiKey] = useState('');
+  const [selectedModel, setSelectedModel] = useState('gemini-3-flash-preview');
 
   useEffect(() => {
     if (isOpen) {
       setApiKey(localStorage.getItem('api_key') || '');
+      setSelectedModel(localStorage.getItem('selected_model') || 'gemini-3-flash-preview');
     }
   }, [isOpen]);
 
   if (!isOpen) return null;
 
   const handleSave = () => {
-    if (apiKey.trim()) {
-      localStorage.setItem('api_key', apiKey.trim());
-      initializeGeminiChat(apiKey.trim());
-    } else {
-      localStorage.removeItem('api_key');
-      initializeGeminiChat(); // Fallback to env
-    }
-    onSave();
-    onClose();
+    onSave(apiKey.trim(), selectedModel);
   };
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in">
-      <div className="bg-white rounded-3xl w-full max-w-md shadow-2xl overflow-hidden border-4 border-brand-200">
+      <div className="bg-white rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden border-4 border-brand-200">
         <div className="p-6 border-b border-slate-100 bg-brand-50 flex justify-between items-center">
           <h2 className="text-2xl font-black text-brand-900 font-display flex items-center gap-2">
             <span>⚙️</span> Cài đặt Hệ thống
@@ -54,14 +53,32 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, o
               placeholder="Nhập API Key của bạn..."
               className="w-full p-4 rounded-xl border-2 border-slate-200 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/20 outline-none font-medium text-slate-700 transition-all"
             />
-            <p className="mt-2 text-xs text-slate-500 font-medium">
-              Nếu không nhập, hệ thống sẽ sử dụng Key mặc định. Hãy sử dụng Key riêng nếu hệ thống báo lỗi Quota (hết giới hạn).
+            <p className="mt-3 text-sm text-slate-600 font-medium">
+              Bạn chưa có API Key? <a href="https://aistudio.google.com/api-keys" target="_blank" rel="noopener noreferrer" className="text-blue-600 font-bold hover:underline">Vào đây để lấy Key miễn phí</a>
             </p>
+          </div>
+
+          <div>
+            <label className="block text-sm font-black text-brand-700 mb-2 uppercase tracking-wide">
+              Mô hình AI (Model)
+            </label>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {MODELS.map(m => (
+                <div 
+                  key={m.id} 
+                  onClick={() => setSelectedModel(m.id)}
+                  className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${selectedModel === m.id ? 'border-brand-500 bg-brand-50 shadow-md' : 'border-slate-200 hover:border-brand-300'}`}
+                >
+                  <div className="font-bold text-slate-800">{m.name}</div>
+                  <div className="text-xs text-slate-500 mt-1">{m.desc}</div>
+                </div>
+              ))}
+            </div>
           </div>
           
           <button 
             onClick={handleSave}
-            className="w-full py-4 bg-brand-500 hover:bg-brand-600 text-white font-black text-lg rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1"
+            className="w-full py-4 bg-brand-500 hover:bg-brand-600 text-white font-black text-lg rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 mt-4"
           >
             Lưu Cài Đặt
           </button>

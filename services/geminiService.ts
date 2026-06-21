@@ -156,6 +156,34 @@ const safeJsonParse = <T>(text: string): T => {
   }
 };
 
+const executeWithFallback = async (parts: any[], config: any, defaultModel: string) => {
+  const selectedModel = localStorage.getItem('selected_model') || defaultModel;
+  const fallbackModels = ['gemini-3-flash-preview', 'gemini-3-pro-preview', 'gemini-2.5-flash'];
+  
+  // Bắt đầu với model được chọn, sau đó là các model dự phòng
+  const modelsToTry = [selectedModel, ...fallbackModels.filter(m => m !== selectedModel)];
+
+  let lastError = null;
+  
+  for (const model of modelsToTry) {
+    try {
+      console.log(`Đang thử gọi API với model: ${model}`);
+      const response = await ai.models.generateContent({
+        model,
+        contents: { parts },
+        config
+      });
+      return response;
+    } catch (err: any) {
+      console.warn(`Model ${model} thất bại:`, err);
+      lastError = err;
+      // Thử lại ngay lập tức với model tiếp theo
+    }
+  }
+  
+  throw lastError;
+};
+
 export const generateLessonPlan = async (
   topicInput: string,
   level: ProficiencyLevel,
@@ -169,15 +197,11 @@ export const generateLessonPlan = async (
   const parts: any[] = images.map(img => ({ inlineData: { mimeType: img.mimeType, data: img.data } }));
   parts.push({ text: promptText });
 
-  const response = await ai.models.generateContent({
-    model: 'gemini-3.1-pro-preview',
-    contents: { parts },
-    config: {
-      responseMimeType: "application/json",
-      responseSchema: lessonSchema,
-      temperature: 0.1
-    }
-  });
+  const response = await executeWithFallback(parts, {
+    responseMimeType: "application/json",
+    responseSchema: lessonSchema,
+    temperature: 0.1
+  }, 'gemini-3.1-pro-preview');
 
   const data = safeJsonParse<LessonPlan>(response.text || "{}");
   data.level = level;
@@ -193,11 +217,11 @@ export const generateMindMap = async (content: string | { data: string, mimeType
     parts.push({ text: content });
   }
   parts.push({ text: "Create kids English vocabulary mind map JSON. CRITICAL: Ensure EVERY key concept and detail from the input is represented in a node. Max 12 nodes." });
-  const response = await ai.models.generateContent({
-    model: 'gemini-3.1-pro-preview',
-    contents: { parts },
-    config: { responseMimeType: "application/json", responseSchema: mindMapSchema, temperature: 0.1 }
-  });
+  const response = await executeWithFallback(parts, { 
+    responseMimeType: "application/json", 
+    responseSchema: mindMapSchema, 
+    temperature: 0.1 
+  }, 'gemini-3.1-pro-preview');
   return safeJsonParse<MindMapData>(response.text || "{}");
 };
 
@@ -215,11 +239,10 @@ export const generatePresentation = async (mindMap: MindMapData, level: Presenta
   INCLUDE Vietnamese translation for each part. 
   Format: JSON { introduction: {english, vietnamese}, body: [{emoji, keyword, script, vietnamese}], conclusion: {english, vietnamese} }`;
 
-  const response = await ai.models.generateContent({
-    model: 'gemini-3-flash-preview',
-    contents: { parts: [{ text: prompt }] },
-    config: { responseMimeType: "application/json", temperature: 0.2 }
-  });
+  const response = await executeWithFallback([{ text: prompt }], { 
+    responseMimeType: "application/json", 
+    temperature: 0.2 
+  }, 'gemini-3-flash-preview');
   return safeJsonParse<PresentationScript>(response.text || "{}");
 };
 
@@ -245,11 +268,7 @@ export const generateMindMapPrompt = async (content: string | { data: string, mi
   OUTPUT: ONLY the prompt string starting with "/imagine prompt:"` 
   });
 
-  const response = await ai.models.generateContent({
-    model: 'gemini-3-flash-preview',
-    contents: { parts },
-    config: { temperature: 0.7 }
-  });
+  const response = await executeWithFallback(parts, { temperature: 0.7 }, 'gemini-3-flash-preview');
   return response.text || "";
 };
 
@@ -287,11 +306,10 @@ export const analyzeImageAndCreateContent = async (
 
   parts.push({ text: promptText });
   
-  const response = await ai.models.generateContent({
-    model: 'gemini-3.1-pro-preview',
-    contents: { parts },
-    config: { responseMimeType: "application/json", temperature: 0.1 }
-  });
+  const response = await executeWithFallback(parts, { 
+    responseMimeType: "application/json", 
+    temperature: 0.1 
+  }, 'gemini-3.1-pro-preview');
   return safeJsonParse<ContentResult>(response.text || "{}");
 };
 
