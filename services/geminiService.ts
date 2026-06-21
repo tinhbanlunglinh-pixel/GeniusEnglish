@@ -251,6 +251,17 @@ export const generatePresentation = async (mindMap: MindMapData, level: Presenta
   return safeJsonParse<PresentationScript>(response.text || "{}");
 };
 
+export const generateContentForMindMap = async (topic: string, targetAudience: string, focus: string): Promise<string> => {
+  const prompt = `Đóng vai là một giáo viên tiếng Anh giàu kinh nghiệm. Hãy soạn một danh sách từ vựng và ngữ pháp ngắn gọn, súc tích (khoảng 10-15 mục) cho chủ đề: "${topic}".
+  - Đối tượng: ${targetAudience}
+  - Trọng tâm: ${focus}
+  
+  Cung cấp trực tiếp nội dung văn bản (bao gồm từ tiếng Anh, nghĩa tiếng Việt, và 1 câu ví dụ ngắn). Không cần lời chào hỏi hay giải thích thêm. Định dạng rõ ràng để người dùng có thể dễ dàng tham khảo.`;
+
+  const response = await executeWithFallback([{ text: prompt }], { temperature: 0.7 }, 'gemini-3-flash-preview');
+  return response.text || "";
+};
+
 export const generateMindMapPrompt = async (content: string | { data: string, mimeType: string }[], mode: MindMapMode): Promise<string> => {
   const parts: any[] = [];
   if (Array.isArray(content)) {

@@ -103,17 +103,38 @@ Yêu cầu định dạng đầu ra:
           <div>
             <div className="flex justify-between items-center mb-2">
               <label className="block text-sm font-bold text-slate-700">Nội dung bài học (Text)</label>
-              <div className="relative overflow-hidden cursor-pointer">
-                <input type="file" accept="image/*" multiple onChange={handleImageUpload} disabled={isExtracting} className="absolute inset-0 opacity-0 cursor-pointer" />
-                <span className="text-xs font-bold text-brand-600 bg-brand-50 px-2 py-1 rounded-md hover:bg-brand-100 transition-colors">
-                  {isExtracting ? "⏳ Đang quét ảnh..." : "📸 Quét ảnh sách"}
-                </span>
+              <div className="flex items-center gap-2">
+                <button 
+                  onClick={async () => {
+                    if (!topic) return alert("Vui lòng nhập chủ đề trước khi tạo nội dung!");
+                    setIsExtracting(true);
+                    try {
+                      const { generateContentForMindMap } = await import('../services/geminiService');
+                      const content = await generateContentForMindMap(topic, targetAudience, focus);
+                      setSourceText(content);
+                    } catch (e) {
+                      alert("Có lỗi xảy ra khi tạo nội dung.");
+                    } finally {
+                      setIsExtracting(false);
+                    }
+                  }}
+                  disabled={isExtracting}
+                  className="text-xs font-bold text-brand-600 bg-brand-50 px-2 py-1 rounded-md hover:bg-brand-100 transition-colors"
+                >
+                  {isExtracting ? "⏳ Đang tạo..." : "✨ Tạo nội dung"}
+                </button>
+                <div className="relative overflow-hidden cursor-pointer">
+                  <input type="file" accept="image/*" multiple onChange={handleImageUpload} disabled={isExtracting} className="absolute inset-0 opacity-0 cursor-pointer" />
+                  <span className="text-xs font-bold text-slate-600 bg-slate-100 px-2 py-1 rounded-md hover:bg-slate-200 transition-colors">
+                    📸 Quét ảnh sách
+                  </span>
+                </div>
               </div>
             </div>
             <textarea 
               value={sourceText}
               onChange={(e) => setSourceText(e.target.value)}
-              placeholder="Dán nội dung bài học, từ vựng... vào đây. Hoặc bấm 'Quét ảnh sách' để AI tự động đọc văn bản từ ảnh."
+              placeholder="Dán nội dung bài học, từ vựng... vào đây. Hoặc bấm 'Tạo nội dung' để AI tự viết."
               className="w-full p-4 rounded-xl border-2 border-slate-200 focus:border-brand-500 outline-none font-medium h-32 resize-y text-sm"
               disabled={isExtracting}
             />
