@@ -59,11 +59,11 @@ const MultipleChoiceCard: React.FC<{ q: MultipleChoiceQ, index: number, onAnswer
         <div className="bg-white p-6 rounded-2xl border-2 border-slate-100 shadow-sm hover:border-brand-200 transition-colors">
             <div className="flex gap-3 mb-4">
                 <span className="bg-brand-100 text-brand-700 font-black px-3 py-1 rounded-lg h-fit border border-brand-200 shrink-0">Câu {index}</span>
-                <p className="font-bold text-lg text-slate-800">{q.question}</p>
+                <p className="font-bold text-lg text-slate-800 break-words flex-1 min-w-0">{q.question}</p>
             </div>
             <div className="grid gap-3">
                 {(q.options || []).map((opt, i) => (
-                    <button key={i} onClick={() => check(i)} disabled={submitted} className={`w-full text-left p-4 rounded-xl font-bold border-2 transition-all ${submitted ? (i === q.correctAnswer ? 'bg-green-100 border-green-500' : (i === selected ? 'bg-red-100 border-red-500' : 'bg-slate-50 border-slate-200')) : (i === selected ? 'bg-brand-100 border-brand-400' : 'bg-white border-slate-200 hover:border-brand-300')}`}>{opt}</button>
+                    <button key={i} onClick={() => check(i)} disabled={submitted} className={`w-full text-left p-4 rounded-xl font-bold border-2 transition-all break-words ${submitted ? (i === q.correctAnswer ? 'bg-green-100 border-green-500' : (i === selected ? 'bg-red-100 border-red-500' : 'bg-slate-50 border-slate-200')) : (i === selected ? 'bg-brand-100 border-brand-400' : 'bg-white border-slate-200 hover:border-brand-300')}`}>{opt}</button>
                 ))}
             </div>
             <FeedbackDisplay status={submitted ? (selected === q.correctAnswer ? 'correct' : 'wrong') : null} explanation={q.explanation} />
@@ -216,7 +216,7 @@ export const PracticeSection: React.FC<{ content: PracticeContent }> = ({ conten
 
     if (!isStarted) {
         return (
-            <div className="bg-white rounded-[3rem] p-12 shadow-2xl border-b-8 border-brand-400 max-w-xl mx-auto text-center animate-fade-in my-10 relative overflow-hidden">
+            <div className="bg-white rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 shadow-2xl border-b-8 border-brand-400 max-w-xl mx-auto text-center animate-fade-in my-10 relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-brand-300 via-brand-500 to-brand-300"></div>
                 <div className="text-8xl mb-6 animate-bounce-slow drop-shadow-lg">🎓</div>
                 <h2 className="text-4xl font-black text-slate-800 mb-2 font-display">Sẵn sàng thử thách?</h2>

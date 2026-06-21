@@ -55,7 +55,7 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({ items = []
                 </div>
 
                 <div className="mt-3 bg-slate-50 p-3 rounded-lg border border-slate-100 relative group/example">
-                  <p className="text-slate-600 text-sm italic leading-relaxed pr-8 font-medium">
+                  <p className="text-slate-600 text-sm italic leading-relaxed pr-2 md:pr-8 font-medium">
                     "{item.example}"
                   </p>
                   {showMeaning && item.sentenceMeaning && (

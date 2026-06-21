@@ -100,7 +100,7 @@ export const InfographicPoster: React.FC<InfographicPosterProps> = ({ lesson }) 
         </div>
 
         {/* --- Content Body --- */}
-        <div className="p-8 md:p-10 grid md:grid-cols-12 gap-10">
+        <div className="p-4 md:p-10 grid md:grid-cols-12 gap-10">
            
            {/* Left Column: Vocabulary (Limit to 6 for space) */}
            <div className="md:col-span-5 space-y-6">
@@ -132,7 +132,7 @@ export const InfographicPoster: React.FC<InfographicPosterProps> = ({ lesson }) 
               <div className="relative">
                  <div className="absolute -top-3 -left-2 text-4xl rotate-12 z-10">📌</div>
                  <div className="bg-yellow-100 rounded-tr-[3rem] rounded-bl-[3rem] rounded-tl-md rounded-br-md p-6 shadow-md border border-yellow-200 transform -rotate-1">
-                    <h3 className="font-black text-yellow-700 text-xl mb-3 flex items-center gap-2">
+                    <h3 className="font-black text-yellow-700 text-lg md:text-xl mb-3 flex flex-wrap items-center gap-2">
                        Grammar Tip: <span className="underline decoration-wavy decoration-yellow-400">{grammar?.topic || 'Grammar'}</span>
                     </h3>
                     <p className="text-slate-700 font-medium leading-relaxed">

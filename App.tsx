@@ -8,9 +8,10 @@ import { PracticeSection } from './components/PracticeSection';
 import { CartoonGenerator } from './components/CartoonGenerator';
 import { InfographicPoster } from './components/InfographicPoster';
 import { SettingsModal } from './components/SettingsModal';
+import { MindMapPromptGenerator } from './components/MindMapPromptGenerator';
 
 function App() {
-  const [activeTab, setActiveTab] = useState<'planner'>('planner');
+  const [activeTab, setActiveTab] = useState<'planner' | 'prompt'>('planner');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   useEffect(() => {
@@ -80,6 +81,7 @@ function App() {
           </div>
           <div className="flex bg-brand-500 rounded-full p-1 gap-1 overflow-x-auto no-scrollbar max-w-full shadow-inner">
              <button onClick={() => setActiveTab('planner')} className={`px-4 py-1.5 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeTab === 'planner' ? 'bg-white text-brand-700 shadow-sm' : 'text-brand-100 hover:bg-brand-600'}`}>Lesson Planner</button>
+             <button onClick={() => setActiveTab('prompt')} className={`px-4 py-1.5 rounded-full font-bold text-sm transition-all whitespace-nowrap flex items-center gap-1 ${activeTab === 'prompt' ? 'bg-white text-brand-700 shadow-sm' : 'text-brand-100 hover:bg-brand-600'}`}>🌈 Prompt Gen</button>
              <button onClick={() => setIsSettingsOpen(true)} className="px-4 py-1.5 rounded-full font-bold text-sm text-brand-100 hover:bg-brand-600 transition-all whitespace-nowrap flex items-center gap-1">
                ⚙️ Cài đặt
                <span className="text-red-300 text-xs">(Lấy API key để sử dụng app)</span>
@@ -165,16 +167,16 @@ function App() {
                     <CartoonGenerator topic={lesson.topic} />
                     <InfographicPoster lesson={lesson} />
                     
-                    <div className="bg-white rounded-[2.5rem] shadow-xl overflow-hidden border-4 border-slate-100">
-                        <div className="bg-brand-400 p-8 border-b-4 border-brand-500">
-                            <h2 className="text-4xl font-black text-brand-900 font-display">Kiến thức & Thực hành</h2>
+                    <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-xl overflow-hidden border-4 border-slate-100">
+                        <div className="bg-brand-400 p-5 md:p-8 border-b-4 border-brand-500">
+                            <h2 className="text-3xl md:text-4xl font-black text-brand-900 font-display">Kiến thức & Thực hành</h2>
                         </div>
-                        <div className="p-8 md:p-12 space-y-12">
+                        <div className="p-4 md:p-12 space-y-8 md:space-y-12">
                             <VocabularySection items={lesson.vocabulary} />
                             
-                            <div className="bg-brand-50 border-l-8 border-brand-400 p-8 rounded-r-xl">
+                            <div className="bg-brand-50 border-l-4 md:border-l-8 border-brand-400 p-5 md:p-8 rounded-r-xl">
                                 <h3 className="text-sm font-black text-brand-600 uppercase mb-2">Ngữ pháp (Tiếng Việt)</h3>
-                                <p className="text-2xl font-bold font-display text-slate-700">{lesson.grammar.explanation}</p>
+                                <p className="text-xl md:text-2xl font-bold font-display text-slate-700">{lesson.grammar.explanation}</p>
                                 <div className="mt-4 space-y-2">
                                     {lesson.grammar.examples.map((ex, i) => (
                                         <p key={i} className="text-slate-500 italic font-medium">• {ex}</p>
@@ -192,6 +194,9 @@ function App() {
                   </div>
                 )}
             </div>
+            
+            {/* Prompt Gen Tab */}
+            {activeTab === 'prompt' && <MindMapPromptGenerator />}
         </div>
       </main>
       <footer className="bg-brand-400 text-brand-900 border-t-8 border-brand-500 py-12 mt-auto">
