@@ -1,12 +1,37 @@
 import React, { useState } from 'react';
+import { fileToBase64, extractTextFromImage } from '../services/geminiService';
 
 export const MindMapPromptGenerator: React.FC = () => {
   const [topic, setTopic] = useState('');
   const [targetAudience, setTargetAudience] = useState('Học sinh tiểu học');
   const [focus, setFocus] = useState('Từ vựng và Ngữ pháp');
+  const [sourceText, setSourceText] = useState('');
+  const [isExtracting, setIsExtracting] = useState(false);
   
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      setIsExtracting(true);
+      try {
+        const newImages = [];
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const base64 = await fileToBase64(file);
+          newImages.push({ data: base64, mimeType: file.type || 'image/jpeg' });
+        }
+        const text = await extractTextFromImage(newImages);
+        setSourceText(prev => prev ? prev + '\n\n' + text : text);
+      } catch (err) {
+        alert("Lỗi trích xuất văn bản từ ảnh. Vui lòng kiểm tra lại API Key.");
+      } finally {
+        setIsExtracting(false);
+      }
+      e.target.value = '';
+    }
+  };
+
   const generatePrompt = () => {
-    return `Đóng vai là một chuyên gia thiết kế sơ đồ tư duy (Mind Map) cho giáo dục tiếng Anh.
+    let prompt = `Đóng vai là một chuyên gia thiết kế sơ đồ tư duy (Mind Map) cho giáo dục tiếng Anh.
 Hãy tạo một sơ đồ tư duy chi tiết về chủ đề: "${topic || '[Nhập chủ đề vào đây]'}"
 - Đối tượng: ${targetAudience}
 - Trọng tâm: ${focus}
@@ -16,6 +41,11 @@ Yêu cầu định dạng đầu ra:
 2. Các nhánh chính (Branches) liên quan đến từ vựng, mẫu câu, và ngữ pháp.
 3. Mỗi nhánh chính có 3-4 nhánh phụ (Sub-branches) kèm theo ví dụ minh hoạ dễ hiểu.
 4. Trình bày dưới dạng JSON hoặc danh sách phân cấp (Bullet points) rõ ràng, sử dụng emoji phù hợp để minh hoạ.`;
+
+    if (sourceText.trim()) {
+      prompt += `\n\nNguồn tài liệu tham khảo (hãy dựa vào nội dung này để xây dựng sơ đồ):\n"""\n${sourceText.trim()}\n"""`;
+    }
+    return prompt;
   };
 
   const handleCopy = () => {
@@ -69,9 +99,28 @@ Yêu cầu định dạng đầu ra:
               <option value="Cấu trúc câu hỏi và trả lời">Cấu trúc câu hỏi và trả lời</option>
             </select>
           </div>
+          
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="block text-sm font-bold text-slate-700">Nội dung bài học (Text)</label>
+              <div className="relative overflow-hidden cursor-pointer">
+                <input type="file" accept="image/*" multiple onChange={handleImageUpload} disabled={isExtracting} className="absolute inset-0 opacity-0 cursor-pointer" />
+                <span className="text-xs font-bold text-brand-600 bg-brand-50 px-2 py-1 rounded-md hover:bg-brand-100 transition-colors">
+                  {isExtracting ? "⏳ Đang quét ảnh..." : "📸 Quét ảnh sách"}
+                </span>
+              </div>
+            </div>
+            <textarea 
+              value={sourceText}
+              onChange={(e) => setSourceText(e.target.value)}
+              placeholder="Dán nội dung bài học, từ vựng... vào đây. Hoặc bấm 'Quét ảnh sách' để AI tự động đọc văn bản từ ảnh."
+              className="w-full p-4 rounded-xl border-2 border-slate-200 focus:border-brand-500 outline-none font-medium h-32 resize-y text-sm"
+              disabled={isExtracting}
+            />
+          </div>
         </div>
 
-        <div className="bg-slate-50 p-6 rounded-2xl border-2 border-slate-200 flex flex-col">
+        <div className="bg-slate-50 p-6 rounded-2xl border-2 border-slate-200 flex flex-col h-full">
           <h3 className="font-bold text-slate-700 mb-4 flex items-center gap-2">
             ✨ Prompt được tạo ra:
           </h3>
@@ -80,7 +129,7 @@ Yêu cầu định dạng đầu ra:
           </div>
           <button 
             onClick={handleCopy}
-            className="mt-4 w-full py-3 bg-brand-500 hover:bg-brand-600 text-white rounded-xl font-bold transition-colors flex items-center justify-center gap-2"
+            className="mt-4 w-full py-3 bg-brand-500 hover:bg-brand-600 text-white rounded-xl font-bold transition-colors flex items-center justify-center gap-2 shrink-0"
           >
             📋 Copy Prompt
           </button>

@@ -33,6 +33,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [lesson, setLesson] = useState<LessonPlan | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [sourceText, setSourceText] = useState('');
   
   const [uploadedImages, setUploadedImages] = useState<{data: string, mimeType: string}[]>([]);
 
@@ -51,12 +52,12 @@ function App() {
   };
 
   const handleGenerate = async () => {
-    if (!topic && uploadedImages.length === 0) return;
+    if (!topic && !sourceText && uploadedImages.length === 0) return;
     setLoading(true);
     setError(null);
     setLesson(null);
     try {
-      const data = await generateLessonPlan(topic, level, difficulty, uploadedImages);
+      const data = await generateLessonPlan(topic, level, difficulty, uploadedImages, sourceText);
       setLesson(data);
     } catch (err) {
       console.error("Lesson Generation Error:", err);
@@ -113,6 +114,10 @@ function App() {
                         <input type="text" value={topic} onChange={(e) => setTopic(e.target.value)} placeholder="Nhập chủ đề..." className="w-full p-5 text-xl rounded-2xl border-2 border-slate-200 outline-none font-bold text-slate-700" />
                       </div>
                       <div>
+                        <label className="block text-sm font-black text-brand-600 mb-2 uppercase tracking-wide">Hoặc dán nội dung bài học (Text)</label>
+                        <textarea value={sourceText} onChange={(e) => setSourceText(e.target.value)} placeholder="Dán nội dung sách, bài đọc, đoạn hội thoại..." className="w-full p-5 text-base rounded-2xl border-2 border-slate-200 outline-none font-medium text-slate-700 h-32 resize-y" />
+                      </div>
+                      <div>
                         <label className="block text-sm font-black text-brand-600 mb-2 uppercase tracking-wide">Hoặc tải lên hình ảnh sách</label>
                         <div className="border-3 border-dashed border-brand-200 bg-brand-50 rounded-2xl p-8 text-center hover:bg-brand-50 hover:border-brand-400 transition-all cursor-pointer relative">
                           <input type="file" accept="image/*" multiple onChange={handleImageUpload} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-50" />
@@ -130,7 +135,7 @@ function App() {
                           ))}
                         </div>
                       </div>
-                      <button onClick={handleGenerate} disabled={loading || (!topic && uploadedImages.length === 0)} className="w-full py-5 bg-brand-400 border-b-4 border-brand-600 text-brand-900 rounded-2xl font-black text-2xl shadow-xl hover:bg-brand-300">
+                      <button onClick={handleGenerate} disabled={loading || (!topic && !sourceText && uploadedImages.length === 0)} className="w-full py-5 bg-brand-400 border-b-4 border-brand-600 text-brand-900 rounded-2xl font-black text-2xl shadow-xl hover:bg-brand-300">
                         {loading ? "Đang phân tích..." : "🚀 TẠO BÀI DẠY"}
                       </button>
                       {error && (
@@ -191,7 +196,7 @@ function App() {
                     </div>
                     
                     <div className="text-center">
-                      <button onClick={() => { setLesson(null); setTopic(''); setUploadedImages([]); }} className="text-slate-400 hover:text-brand-500 font-black text-lg flex items-center gap-2 mx-auto">🔄 Soạn bài khác</button>
+                      <button onClick={() => { setLesson(null); setTopic(''); setSourceText(''); setUploadedImages([]); }} className="text-slate-400 hover:text-brand-500 font-black text-lg flex items-center gap-2 mx-auto">🔄 Soạn bài khác</button>
                     </div>
                   </div>
                 )}

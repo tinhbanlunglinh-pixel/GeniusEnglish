@@ -188,11 +188,16 @@ export const generateLessonPlan = async (
   topicInput: string,
   level: ProficiencyLevel,
   difficulty: QuizDifficulty = 'Medium',
-  images: { data: string, mimeType: string }[] = []
+  images: { data: string, mimeType: string }[] = [],
+  sourceText: string = ''
 ): Promise<LessonPlan> => {
-  const promptText = `Expert ESL teacher. Topic: "${topicInput}", Level: "${level}". 
+  let promptText = `Expert ESL teacher. Topic: "${topicInput}", Level: "${level}". 
   MANDATORY: Grammar explanation MUST be in VIETNAMESE.
   Create 30 practice questions (8 MCQ, 7 Scramble, 7 FillBlank, 8 ErrorID). Return valid JSON.`;
+  
+  if (sourceText.trim()) {
+    promptText += `\n\nReference Material:\n"""\n${sourceText.trim()}\n"""\nBase the lesson plan and vocabulary heavily on the provided reference material.`;
+  }
   
   const parts: any[] = images.map(img => ({ inlineData: { mimeType: img.mimeType, data: img.data } }));
   parts.push({ text: promptText });
@@ -324,6 +329,14 @@ export const generateStoryImage = async (prompt: string, style: string, aspectRa
     if (part.inlineData) return `data:image/png;base64,${part.inlineData.data}`;
   }
   return "";
+};
+
+export const extractTextFromImage = async (images: { data: string, mimeType: string }[]): Promise<string> => {
+  const parts: any[] = images.map(img => ({ inlineData: { mimeType: img.mimeType, data: img.data } }));
+  parts.push({ text: "Trích xuất toàn bộ văn bản (tiếng Anh và tiếng Việt) từ các hình ảnh này. Chỉ trả về nội dung văn bản, không cần giải thích thêm." });
+
+  const response = await executeWithFallback(parts, { temperature: 0.1 }, 'gemini-3-flash-preview');
+  return response.text || "";
 };
 
 export const fileToBase64 = (file: File): Promise<string> => {
