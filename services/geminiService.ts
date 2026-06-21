@@ -2,10 +2,10 @@
 import { GoogleGenAI, Type, Schema } from "@google/genai";
 import { LessonPlan, ProficiencyLevel, QuizDifficulty, CharacterProfile, AppMode, EnglishLevel, ContentResult, MindMapData, MindMapMode, PresentationScript, PresentationLevel } from "../types";
 
-let ai = new GoogleGenAI({ apiKey: localStorage.getItem('api_key') || process.env.GEMINI_API_KEY });
+let ai = new GoogleGenAI({ apiKey: localStorage.getItem('api_key') || process.env.GEMINI_API_KEY || 'DUMMY_KEY_TO_PREVENT_CRASH' });
 
 export const initializeGeminiChat = (key?: string) => {
-  const apiKey = key || localStorage.getItem('api_key') || process.env.GEMINI_API_KEY;
+  const apiKey = key || localStorage.getItem('api_key') || process.env.GEMINI_API_KEY || 'DUMMY_KEY_TO_PREVENT_CRASH';
   ai = new GoogleGenAI({ apiKey });
 };
 

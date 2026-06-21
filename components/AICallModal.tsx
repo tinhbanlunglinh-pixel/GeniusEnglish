@@ -101,7 +101,7 @@ export const AICallModal: React.FC<AICallModalProps> = ({ isOpen, onClose, story
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
 
-      const apiKey = localStorage.getItem('api_key') || process.env.API_KEY;
+      const apiKey = localStorage.getItem('api_key') || process.env.API_KEY || 'DUMMY_KEY_TO_PREVENT_CRASH';
       const ai = new GoogleGenAI({ apiKey });
       const qaContext = qaPairs.map((p, i) => `Q${i+1}: ${p.question}, A${i+1}: ${p.answer}`).join('\n');
 
