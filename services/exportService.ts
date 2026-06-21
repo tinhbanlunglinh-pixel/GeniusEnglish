@@ -55,8 +55,7 @@ export const exportLessonPlanToWord = async (lesson: LessonPlan) => {
             spacing: { after: 200 },
           }),
           new Paragraph({
-            text: "Examples:",
-            bold: true,
+            children: [new TextRun({ text: "Examples:", bold: true })],
             spacing: { after: 100 },
           }),
           ...lesson.grammar.examples.map(ex => 
@@ -80,8 +79,7 @@ export const exportLessonPlanToWord = async (lesson: LessonPlan) => {
           }),
           ...lesson.practice.multipleChoice.flatMap((q, i) => [
             new Paragraph({
-              text: `Q${i + 1}: ${q.question}`,
-              bold: true,
+              children: [new TextRun({ text: `Q${i + 1}: ${q.question}`, bold: true })],
               spacing: { before: 200, after: 100 },
             }),
             ...q.options.map((opt, j) => 

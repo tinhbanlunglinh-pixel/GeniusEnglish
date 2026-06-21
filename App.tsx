@@ -82,14 +82,16 @@ function App() {
           <div className="flex bg-brand-500 rounded-full p-1 gap-1 overflow-x-auto no-scrollbar max-w-full shadow-inner">
              <button onClick={() => setActiveTab('planner')} className={`px-4 py-1.5 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeTab === 'planner' ? 'bg-white text-brand-700 shadow-sm' : 'text-brand-100 hover:bg-brand-600'}`}>Lesson Planner</button>
              <button onClick={() => setActiveTab('prompt')} className={`px-4 py-1.5 rounded-full font-bold text-sm transition-all whitespace-nowrap flex items-center gap-1 ${activeTab === 'prompt' ? 'bg-white text-brand-700 shadow-sm' : 'text-brand-100 hover:bg-brand-600'}`}>🌈 Prompt Gen</button>
-             <button onClick={() => setIsSettingsOpen(true)} className="px-4 py-1.5 rounded-full font-bold text-sm text-brand-100 hover:bg-brand-600 transition-all whitespace-nowrap flex items-center gap-1">
-               ⚙️ Cài đặt
-               <span className="text-red-300 text-xs">(Lấy API key để sử dụng app)</span>
-             </button>
              <a href="https://www.tienganhchotreem.com/" target="_blank" rel="noopener noreferrer" className="px-4 py-1.5 rounded-full font-bold text-sm text-brand-100 hover:bg-brand-600 transition-all flex items-center gap-1 whitespace-nowrap">
                 📚 Truyện tiếng Anh cho bé
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
              </a>
+          </div>
+          <div className="shrink-0 flex items-center mt-2 md:mt-0">
+             <button onClick={() => setIsSettingsOpen(true)} className="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-full font-bold text-sm transition-all whitespace-nowrap flex items-center gap-2 shadow-md border-2 border-slate-700">
+               ⚙️ Cài đặt
+               <span className="text-brand-300 text-xs font-medium tracking-wide">(Lấy API key để sử dụng app)</span>
+             </button>
           </div>
         </div>
       </header>
@@ -194,10 +196,10 @@ function App() {
                   </div>
                 )}
             </div>
-            
-            {/* Prompt Gen Tab */}
-            {activeTab === 'prompt' && <MindMapPromptGenerator />}
         </div>
+        
+        {/* Prompt Gen Tab */}
+        {activeTab === 'prompt' && <MindMapPromptGenerator />}
       </main>
       <footer className="bg-brand-400 text-brand-900 border-t-8 border-brand-500 py-12 mt-auto">
          <div className="max-w-6xl mx-auto px-4 text-center">
