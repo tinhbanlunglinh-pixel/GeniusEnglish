@@ -151,9 +151,9 @@ const ErrorIdCard: React.FC<{ q: ErrorIdQ, index: number, onAnswer: (correct: bo
                 <span className="bg-red-100 text-red-700 font-black px-3 py-1 rounded-lg shrink-0 text-sm">Câu {index}</span>
                 <p className="font-bold text-base md:text-lg break-words flex-1 min-w-0 leading-snug">Tìm lỗi sai: "{q.sentence}"</p>
             </div>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {(q.options || []).map((opt, i) => (
-                    <button key={i} onClick={() => handleCheck(i)} disabled={submitted} className={`p-4 border-2 rounded-xl font-bold transition-all ${submitted ? (i === q.correctOptionIndex ? 'bg-green-100 border-green-500 text-green-700' : (i === selected ? 'bg-red-100 border-red-500 text-red-700' : 'bg-slate-50 border-slate-200')) : 'bg-slate-50 border-slate-200 hover:border-red-300'}`}>{String.fromCharCode(65 + i)}. {opt}</button>
+                    <button key={i} onClick={() => handleCheck(i)} disabled={submitted} className={`p-4 border-2 rounded-xl font-bold transition-all break-words ${submitted ? (i === q.correctOptionIndex ? 'bg-green-100 border-green-500 text-green-700' : (i === selected ? 'bg-red-100 border-red-500 text-red-700' : 'bg-slate-50 border-slate-200')) : 'bg-slate-50 border-slate-200 hover:border-red-300'}`}>{String.fromCharCode(65 + i)}. {opt}</button>
                 ))}
             </div>
             {submitted && <p className="mt-4 p-4 bg-green-50 border-2 border-green-200 rounded-2xl font-black text-green-800">Sửa đúng: {q.correction}</p>}
@@ -240,11 +240,11 @@ export const PracticeSection: React.FC<{ content: PracticeContent }> = ({ conten
               <>
                 <div className="bg-brand-400 p-6 rounded-[2.5rem] shadow-xl sticky top-24 z-30 flex flex-col md:flex-row items-center justify-between gap-6 border-4 border-brand-500">
                     <div className="text-left">
-                        <h2 className="text-2xl font-black text-brand-900 leading-none">Học viên: {name}</h2>
+                        <h2 className="text-2xl font-black text-brand-900 leading-none break-words">Học viên: {name}</h2>
                         <p className="text-brand-800 text-xs font-bold uppercase tracking-widest mt-1">Hệ thống giáo dục Cô Lợi Genius English</p>
                     </div>
-                    <div className="flex-1 w-full max-w-lg mx-4">
-                        <div className="flex justify-between text-xs font-black mb-2 text-brand-900">
+                    <div className="flex-1 w-full max-w-lg">
+                        <div className="flex justify-between text-xs font-black mb-2 text-brand-900 gap-2">
                             <span>TIẾN ĐỘ HOÀN THÀNH</span>
                             <span>{answeredCount}/{totalQuestions} CÂU</span>
                         </div>

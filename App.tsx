@@ -180,10 +180,10 @@ function App() {
                             
                             <div className="bg-brand-50 border-l-4 md:border-l-8 border-brand-400 p-5 md:p-8 rounded-r-xl">
                                 <h3 className="text-sm font-black text-brand-600 uppercase mb-2">Ngữ pháp (Tiếng Việt)</h3>
-                                <p className="text-xl md:text-2xl font-bold font-display text-slate-700">{lesson.grammar.explanation}</p>
+                                <p className="text-xl md:text-2xl font-bold font-display text-slate-700 break-words">{lesson.grammar.explanation}</p>
                                 <div className="mt-4 space-y-2">
                                     {lesson.grammar.examples.map((ex, i) => (
-                                        <p key={i} className="text-slate-500 italic font-medium">• {ex}</p>
+                                        <p key={i} className="text-slate-500 italic font-medium break-words">• {ex}</p>
                                     ))}
                                 </div>
                             </div>
