@@ -74,29 +74,29 @@ export const InfographicPoster: React.FC<InfographicPosterProps> = ({ lesson }) 
         <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-12 bg-white/50 backdrop-blur border-2 border-slate-200/50 shadow-sm rotate-1 z-20"></div>
 
         {/* --- Header Section --- */}
-        <div className={`relative h-64 bg-gradient-to-b ${theme.headerGradient} flex items-center justify-center p-6 border-b-4 ${theme.border} border-dashed`}>
+        <div className={`relative min-h-[16rem] bg-gradient-to-b ${theme.headerGradient} flex flex-col items-center justify-center p-6 pt-16 md:pt-6 border-b-4 ${theme.border} border-dashed`}>
            <div className="absolute top-4 left-6 bg-white/80 backdrop-blur px-4 py-1.5 rounded-full text-sm font-black uppercase tracking-widest text-slate-500 shadow-sm">
               {level} Level {theme.icon}
            </div>
 
-           <div className="flex items-center gap-6 z-10 mt-4">
-              <div className="w-40 h-40 bg-white rounded-full border-8 border-white shadow-lg overflow-hidden flex-shrink-0 rotate-3 p-4">
+           <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 z-10 w-full">
+              <div className="w-32 h-32 md:w-40 md:h-40 bg-white rounded-full border-8 border-white shadow-lg overflow-hidden flex-shrink-0 rotate-3 p-2 md:p-4 mx-auto md:mx-0">
                  <SmartImage 
                    src={mainImgUrl} 
                    alt={topic} 
                    className="w-full h-full object-contain" 
                  />
               </div>
-              <div className="text-center md:text-left">
-                 <div className="text-sm font-bold opacity-60 uppercase tracking-widest mb-1">Topic of the day</div>
-                 <h1 className={`text-5xl md:text-6xl font-black ${theme.accent} drop-shadow-sm font-display capitalize`}>
+              <div className="text-center md:text-left flex-1 min-w-0 px-2 md:px-0">
+                 <div className="text-xs md:text-sm font-bold opacity-60 uppercase tracking-widest mb-1">Topic of the day</div>
+                 <h1 className={`text-3xl sm:text-4xl md:text-6xl font-black ${theme.accent} drop-shadow-sm font-display capitalize break-words overflow-wrap-anywhere`}>
                     {topic}
                  </h1>
               </div>
            </div>
            
            {/* Background Patterns */}
-           <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, #fff 2px, transparent 2px)', backgroundSize: '20px 20px' }}></div>
+           <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #fff 2px, transparent 2px)', backgroundSize: '20px 20px' }}></div>
         </div>
 
         {/* --- Content Body --- */}

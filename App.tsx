@@ -87,18 +87,18 @@ function App() {
           <div className="shrink-0 flex items-center mt-2 md:mt-0">
              <button onClick={() => setIsSettingsOpen(true)} className="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-full font-bold text-sm transition-all flex items-center gap-2 shadow-md border-2 border-slate-700 flex-wrap justify-center">
                <span className="whitespace-nowrap">⚙️ Cài đặt</span>
-               <span className="text-brand-300 text-xs font-medium tracking-wide whitespace-nowrap">(Lấy API key để sử dụng app)</span>
+               <span className="text-brand-300 text-xs font-medium tracking-wide whitespace-nowrap hidden md:inline">(Lấy API key để sử dụng app)</span>
              </button>
           </div>
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 py-10 flex-grow w-full relative">
+      <main className="max-w-7xl mx-auto px-4 py-6 md:py-10 flex-grow w-full relative">
         {/* Tab Lesson Planner - Persist State using hidden */}
         <div className={activeTab === 'planner' ? 'block' : 'hidden'}>
             <div className="w-full">
                 {!lesson && (
-                  <div className="bg-white rounded-[2rem] shadow-xl p-8 md:p-12 mb-8 max-w-3xl mx-auto border-b-8 border-brand-200 animate-fade-in">
+                  <div className="bg-white rounded-[2rem] shadow-xl p-8 md:p-12 mb-8 w-full max-w-5xl mx-auto border-b-8 border-brand-200 animate-fade-in">
                     <div className="text-center mb-8">
                       <div className="text-6xl mb-4 animate-bounce-slow">👩‍🏫</div>
                       <h2 className="text-4xl font-black text-slate-800 mb-3 font-display">Genius Planner!</h2>
@@ -204,7 +204,7 @@ function App() {
         {activeTab === 'prompt' && <MindMapPromptGenerator />}
       </main>
       <footer className="bg-brand-400 text-brand-900 border-t-8 border-brand-500 py-12 mt-auto">
-         <div className="max-w-6xl mx-auto px-4 text-center">
+         <div className="max-w-7xl mx-auto px-4 text-center">
             <h3 className="font-display font-black text-2xl mb-2">Genius English Center - Cô Lợi</h3>
             <p className="font-bold opacity-90 mb-4">📞 0379370329 • Facebook: Phùng Lợi</p>
             <div className="flex justify-center gap-6">
