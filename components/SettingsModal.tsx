@@ -7,19 +7,19 @@ interface SettingsModalProps {
 }
 
 const MODELS = [
-  { id: 'gemini-3-flash-preview', name: 'Gemini 3 Flash', desc: 'Nhanh, mặc định' },
-  { id: 'gemini-3-pro-preview', name: 'Gemini 3 Pro', desc: 'Thông minh nhất' },
+  { id: 'gemini-3-flash-preview', name: 'Gemini 3 Flash', desc: 'Nhanh, dự phòng' },
+  { id: 'gemini-3-pro-preview', name: 'Gemini 3 Pro', desc: 'Thông minh, mặc định' },
   { id: 'gemini-2.5-flash', name: 'Gemini 2.5 Flash', desc: 'Ổn định, dự phòng' }
 ];
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onSave }) => {
   const [apiKey, setApiKey] = useState('');
-  const [selectedModel, setSelectedModel] = useState('gemini-3-flash-preview');
+  const [selectedModel, setSelectedModel] = useState('gemini-3-pro-preview');
 
   useEffect(() => {
     if (isOpen) {
       setApiKey(localStorage.getItem('api_key') || '');
-      setSelectedModel(localStorage.getItem('selected_model') || 'gemini-3-flash-preview');
+      setSelectedModel(localStorage.getItem('selected_model') || 'gemini-3-pro-preview');
     }
   }, [isOpen]);
 

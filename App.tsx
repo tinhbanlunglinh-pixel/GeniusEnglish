@@ -6,14 +6,11 @@ import { LessonPlan, ProficiencyLevel, QuizDifficulty } from './types';
 import { VocabularySection } from './components/VocabularySection';
 import { PracticeSection } from './components/PracticeSection';
 import { CartoonGenerator } from './components/CartoonGenerator';
-import { MagicStory } from './components/MagicStory';
 import { InfographicPoster } from './components/InfographicPoster';
-import { MindMapTab } from './components/MindMapTab';
-import { MindMapPromptGenerator } from './components/MindMapPromptGenerator';
 import { SettingsModal } from './components/SettingsModal';
 
 function App() {
-  const [activeTab, setActiveTab] = useState<'planner' | 'story' | 'mindmap' | 'prompt'>('planner');
+  const [activeTab, setActiveTab] = useState<'planner'>('planner');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   useEffect(() => {
@@ -73,7 +70,9 @@ function App() {
       <header className="bg-brand-400 border-b-4 border-brand-500 sticky top-0 z-50 shadow-md">
         <div className="max-w-7xl mx-auto px-4 py-3 md:py-0 md:h-20 flex flex-col md:flex-row items-center justify-between gap-3 md:gap-0">
           <div className="flex items-center gap-3 shrink-0">
-            <div className="w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-brand-600 font-black text-2xl cursor-pointer select-none" onClick={() => setActiveTab('planner')}>G</div>
+            <div className="w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center cursor-pointer select-none overflow-hidden border-2 border-brand-100" onClick={() => setActiveTab('planner')}>
+              <img src="https://i.postimg.cc/FRgG3qSw/409332660-1038772744108136-6635348450087051296-n.jpg" alt="Cô Lợi" className="w-full h-full object-cover" />
+            </div>
             <div className="flex flex-col">
               <h1 className="text-xl md:text-2xl font-black text-brand-900 tracking-tight leading-none font-display">Genius English</h1>
               <span className="text-[10px] md:text-xs font-bold text-brand-800 uppercase tracking-widest opacity-80">Cô Lợi - Thắp sáng tiềm năng</span>
@@ -81,15 +80,12 @@ function App() {
           </div>
           <div className="flex bg-brand-500 rounded-full p-1 gap-1 overflow-x-auto no-scrollbar max-w-full shadow-inner">
              <button onClick={() => setActiveTab('planner')} className={`px-4 py-1.5 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeTab === 'planner' ? 'bg-white text-brand-700 shadow-sm' : 'text-brand-100 hover:bg-brand-600'}`}>Lesson Planner</button>
-             <button onClick={() => setActiveTab('story')} className={`px-4 py-1.5 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeTab === 'story' ? 'bg-white text-brand-700 shadow-sm' : 'text-brand-100 hover:bg-brand-600'}`}>✨ Magic Story</button>
-             <button onClick={() => setActiveTab('mindmap')} className={`px-4 py-1.5 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeTab === 'mindmap' ? 'bg-white text-brand-700 shadow-sm' : 'text-brand-100 hover:bg-brand-600'}`}>🎨 Mind Map</button>
-             <button onClick={() => setActiveTab('prompt')} className={`px-4 py-1.5 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeTab === 'prompt' ? 'bg-white text-brand-700 shadow-sm' : 'text-brand-100 hover:bg-brand-600'}`}>🌈 Prompt Gen</button>
              <button onClick={() => setIsSettingsOpen(true)} className="px-4 py-1.5 rounded-full font-bold text-sm text-brand-100 hover:bg-brand-600 transition-all whitespace-nowrap flex items-center gap-1">
                ⚙️ Cài đặt
                <span className="text-red-300 text-xs">(Lấy API key để sử dụng app)</span>
              </button>
              <a href="https://www.tienganhchotreem.com/" target="_blank" rel="noopener noreferrer" className="px-4 py-1.5 rounded-full font-bold text-sm text-brand-100 hover:bg-brand-600 transition-all flex items-center gap-1 whitespace-nowrap">
-                📚 Truyện Tiếng Anh
+                📚 Truyện tiếng Anh cho bé
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
              </a>
           </div>
@@ -97,21 +93,6 @@ function App() {
       </header>
 
       <main className="max-w-6xl mx-auto px-4 py-10 flex-grow w-full relative">
-        {/* Tab Prompt Gen - Persist State using hidden */}
-        <div className={activeTab === 'prompt' ? 'block' : 'hidden'}>
-          <MindMapPromptGenerator />
-        </div>
-
-        {/* Tab Mind Map - Persist State using hidden */}
-        <div className={activeTab === 'mindmap' ? 'block' : 'hidden'}>
-          <MindMapTab />
-        </div>
-
-        {/* Tab Magic Story - Persist State using hidden */}
-        <div className={activeTab === 'story' ? 'block' : 'hidden'}>
-          <MagicStory />
-        </div>
-
         {/* Tab Lesson Planner - Persist State using hidden */}
         <div className={activeTab === 'planner' ? 'block' : 'hidden'}>
             <div className="w-full">

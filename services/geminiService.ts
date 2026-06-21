@@ -201,7 +201,7 @@ export const generateLessonPlan = async (
     responseMimeType: "application/json",
     responseSchema: lessonSchema,
     temperature: 0.1
-  }, 'gemini-3.1-pro-preview');
+  }, 'gemini-3-pro-preview');
 
   const data = safeJsonParse<LessonPlan>(response.text || "{}");
   data.level = level;
@@ -221,7 +221,7 @@ export const generateMindMap = async (content: string | { data: string, mimeType
     responseMimeType: "application/json", 
     responseSchema: mindMapSchema, 
     temperature: 0.1 
-  }, 'gemini-3.1-pro-preview');
+  }, 'gemini-3-pro-preview');
   return safeJsonParse<MindMapData>(response.text || "{}");
 };
 
@@ -242,7 +242,7 @@ export const generatePresentation = async (mindMap: MindMapData, level: Presenta
   const response = await executeWithFallback([{ text: prompt }], { 
     responseMimeType: "application/json", 
     temperature: 0.2 
-  }, 'gemini-3-flash-preview');
+  }, 'gemini-3-pro-preview');
   return safeJsonParse<PresentationScript>(response.text || "{}");
 };
 
@@ -268,7 +268,7 @@ export const generateMindMapPrompt = async (content: string | { data: string, mi
   OUTPUT: ONLY the prompt string starting with "/imagine prompt:"` 
   });
 
-  const response = await executeWithFallback(parts, { temperature: 0.7 }, 'gemini-3-flash-preview');
+  const response = await executeWithFallback(parts, { temperature: 0.7 }, 'gemini-3-pro-preview');
   return response.text || "";
 };
 
@@ -309,7 +309,7 @@ export const analyzeImageAndCreateContent = async (
   const response = await executeWithFallback(parts, { 
     responseMimeType: "application/json", 
     temperature: 0.1 
-  }, 'gemini-3.1-pro-preview');
+  }, 'gemini-3-pro-preview');
   return safeJsonParse<ContentResult>(response.text || "{}");
 };
 

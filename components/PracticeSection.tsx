@@ -1,5 +1,5 @@
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { MultipleChoiceQ, ScrambleQ, FillInputQ, ErrorIdQ, PracticeContent } from '../types';
 import { toPng } from 'html-to-image';
 
@@ -181,6 +181,18 @@ export const PracticeSection: React.FC<{ content: PracticeContent }> = ({ conten
     const month = (now.getMonth() + 1).toString().padStart(2, '0');
     const year = now.getFullYear();
 
+    const [certScale, setCertScale] = useState(1);
+    useEffect(() => {
+        const handleResize = () => {
+            const padding = 32; // px-4 = 16px each side
+            const maxWidth = Math.min(window.innerWidth - padding, 1000);
+            setCertScale(maxWidth / 1000);
+        };
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     const downloadCertificate = async () => {
         if (certRef.current === null) return;
         try {
@@ -281,7 +293,12 @@ export const PracticeSection: React.FC<{ content: PracticeContent }> = ({ conten
 
                 <div className="text-center pt-12 pb-20">
                     <button 
-                        onClick={() => { window.scrollTo({top: 0, behavior: 'smooth'}); setIsFinished(true); }} 
+                        onClick={() => { 
+                            setIsFinished(true); 
+                            setTimeout(() => {
+                                window.scrollTo({top: 0, behavior: 'smooth'}); 
+                            }, 100);
+                        }} 
                         className="bg-brand-500 text-brand-900 px-20 py-8 rounded-[3rem] font-black text-3xl shadow-2xl transform hover:-translate-y-2 hover:bg-brand-400 transition-all border-b-8 border-brand-700 active:translate-y-0 active:border-b-0"
                     >
                         🏁 XEM GIẤY CHỨNG NHẬN
@@ -290,17 +307,27 @@ export const PracticeSection: React.FC<{ content: PracticeContent }> = ({ conten
                 </div>
               </>
             ) : (
-                <div className="flex flex-col items-center gap-12 animate-fade-in py-16 px-4">
-                    {/* Certificate Component - Fixed Width for consistent export */}
-                    <div ref={certRef} className="relative w-[1000px] h-[720px] bg-white border-[25px] border-double border-brand-400 p-12 shadow-2xl overflow-hidden flex flex-col items-center justify-center select-none font-display">
-                        {/* Background Decoration */}
-                        <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#f59e0b 2.5px, transparent 2.5px)', backgroundSize: '45px 45px' }}></div>
-                        <div className="absolute -top-32 -right-32 w-96 h-96 bg-brand-100 rounded-full blur-[100px] opacity-40"></div>
-                        <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-brand-100 rounded-full blur-[100px] opacity-40"></div>
+                <div className="flex flex-col items-center gap-12 animate-fade-in py-16 px-4 w-full overflow-hidden">
+                    {/* Certificate Component - Scaled for mobile */}
+                    <div 
+                        className="relative origin-top flex justify-center"
+                        style={{ 
+                            transform: `scale(${certScale})`, 
+                            width: 1000, 
+                            height: 720,
+                            marginBottom: `calc(720px * (${certScale} - 1))`
+                        }}
+                    >
+                        <div ref={certRef} className="absolute top-0 left-0 w-[1000px] h-[720px] bg-white border-[25px] border-double border-brand-400 p-12 shadow-2xl overflow-hidden flex flex-col items-center justify-center select-none font-display">
+                            {/* Background Decoration */}
+                            <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#f59e0b 2.5px, transparent 2.5px)', backgroundSize: '45px 45px' }}></div>
+                            <div className="absolute -top-32 -right-32 w-96 h-96 bg-brand-100 rounded-full blur-[100px] opacity-40"></div>
+                            <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-brand-100 rounded-full blur-[100px] opacity-40"></div>
                         
                         {/* Frame Inside */}
                         <div className="relative z-10 w-full text-center border-[6px] border-brand-200 p-8 h-full flex flex-col items-center justify-between shadow-inner bg-white/60">
-                            <div className="space-y-1">
+                            <div className="space-y-1 flex flex-col items-center">
+                                <img src="https://i.postimg.cc/FRgG3qSw/409332660-1038772744108136-6635348450087051296-n.jpg" alt="Cô Lợi Logo" className="w-24 h-24 rounded-full object-cover border-[6px] border-brand-200 mb-2 shadow-sm" />
                                 <h1 className="text-5xl font-black text-brand-600 uppercase tracking-[0.2em] mb-1 drop-shadow-sm">CERTIFICATE</h1>
                                 <p className="text-sm text-slate-400 font-extrabold uppercase tracking-[0.3em]">OF EXCELLENT ACHIEVEMENT</p>
                             </div>
@@ -356,6 +383,7 @@ export const PracticeSection: React.FC<{ content: PracticeContent }> = ({ conten
                                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                             </div>
                         </div>
+                    </div>
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-6 w-full max-w-2xl">
