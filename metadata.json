@@ -1,0 +1,9 @@
+{
+  "name": "Remix: 1. Genius Tiếng Anh - Cô Lợi",
+  "description": "Hệ thống AI hỗ trợ giảng dạy và học tập Tiếng Anh dành cho trẻ em - Trung tâm Genius Tiếng Anh trẻ em cô Lợi.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "C7": [],
+  "aq": []
+}

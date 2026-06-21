@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Genius Tiếng Anh - Cô Lợi</title>
+    <script>
+      (function() {
+        try {
+          var currentFetch = window.fetch;
+          var patch = function(obj) {
+            if (!obj) return;
+            try {
+              Object.defineProperty(obj, 'fetch', {
+                get: function() { return currentFetch; },
+                set: function(v) { currentFetch = v; },
+                configurable: true,
+                enumerable: true
+              });
+            } catch (inner) {
+              console.warn("Prop patch failed on object:", inner);
+            }
+          };
+          patch(window);
+          patch(globalThis);
+          if (typeof self !== 'undefined') {
+            patch(self);
+          }
+          if (typeof Window !== 'undefined' && Window.prototype) {
+            patch(Window.prototype);
+          }
+        } catch (e) {
+          console.warn("Failed to patch fetch setter:", e);
+        }
+      })();
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: '#fffbeb',
+                100: '#fef3c7',
+                200: '#fde68a',
+                300: '#fcd34d',
+                400: '#fbbf24', // Main Bright Yellow
+                500: '#f59e0b', // Darker Amber
+                600: '#d97706',
+                700: '#b45309',
+                900: '#78350f',
+              },
+              accent: {
+                400: '#f87171',
+                500: '#ef4444', // Red
+                600: '#dc2626',
+              }
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              display: ['Lexend', '"Comic Sans MS"', '"Chalkboard SE"', 'sans-serif'],
+              serif: ['Lexend', 'serif'],
+            },
+            animation: {
+              'bounce-slow': 'bounce 3s infinite',
+              'confetti': 'confetti 5s ease-in-out infinite',
+            },
+            keyframes: {
+              confetti: {
+                '0%': { transform: 'translateY(0) rotate(0deg)', opacity: '1' },
+                '100%': { transform: 'translateY(100vh) rotate(720deg)', opacity: '0' }
+              }
+            }
+          },
+        },
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Lexend:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" crossorigin="anonymous">
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "d3": "https://aistudiocdn.com/d3@^7.9.0",
+    "html-to-image": "https://esm.sh/html-to-image@^1.11.13"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-brand-50 text-slate-900 antialiased selection:bg-brand-300 selection:text-brand-900">
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
