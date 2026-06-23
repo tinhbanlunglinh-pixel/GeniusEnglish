@@ -285,7 +285,7 @@ export const PracticeSection: React.FC<{ content: PracticeContent }> = ({ conten
                     <div className="space-y-4 md:space-y-6 w-full min-w-0">
                         <div className="flex items-center gap-2 md:gap-3 mb-2 md:mb-4 flex-wrap">
                             <div className="w-10 h-10 md:w-12 md:h-12 bg-red-400 rounded-2xl flex items-center justify-center text-xl md:text-2xl shadow-md border-2 border-red-500 font-black shrink-0">D</div>
-                            <h3 className="text-xl md:text-2xl font-black text-red-800 font-display">THỬ THÁCH TÌM LỖ SAI</h3>
+                            <h3 className="text-xl md:text-2xl font-black text-red-800 font-display">THỬ THÁCH TÌM LỖI SAI</h3>
                         </div>
                         {content.errorIdentification.map((q, i) => <ErrorIdCard key={q.id} q={q} index={i+1+content.multipleChoice.length+content.scramble.length+content.fillBlank.length} onAnswer={c => setScoreMap(p => ({...p, [q.id]: c}))} />)}
                     </div>
