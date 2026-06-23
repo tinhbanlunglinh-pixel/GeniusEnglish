@@ -68,7 +68,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-brand-50 flex flex-col font-sans">
+    <div className="min-h-screen bg-brand-50 flex flex-col font-sans overflow-x-hidden w-full max-w-[100vw]">
       <header className="bg-brand-400 border-b-4 border-brand-500 sticky top-0 z-50 shadow-md">
         <div className="max-w-7xl mx-auto px-3 py-3 md:py-0 md:h-20 flex flex-col md:flex-row items-center justify-between gap-3 md:gap-0">
           <div className="flex items-center gap-3 shrink-0">
@@ -81,13 +81,13 @@ function App() {
             </div>
           </div>
           <div className="flex flex-wrap bg-brand-500 rounded-2xl md:rounded-full p-1 gap-1 max-w-full shadow-inner justify-center">
-             <button onClick={() => setActiveTab('planner')} className={`px-4 py-1.5 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeTab === 'planner' ? 'bg-white text-brand-700 shadow-sm' : 'text-brand-100 hover:bg-brand-600'}`}>Lesson Planner</button>
-             <button onClick={() => setActiveTab('prompt')} className={`px-4 py-1.5 rounded-full font-bold text-sm transition-all whitespace-nowrap flex items-center gap-1 ${activeTab === 'prompt' ? 'bg-white text-brand-700 shadow-sm' : 'text-brand-100 hover:bg-brand-600'}`}>🌈 Prompt Gen</button>
+             <button onClick={() => setActiveTab('planner')} className={`px-4 py-1.5 rounded-full font-bold text-sm transition-all ${activeTab === 'planner' ? 'bg-white text-brand-700 shadow-sm' : 'text-brand-100 hover:bg-brand-600'}`}>Lesson Planner</button>
+             <button onClick={() => setActiveTab('prompt')} className={`px-4 py-1.5 rounded-full font-bold text-sm transition-all flex items-center justify-center gap-1 ${activeTab === 'prompt' ? 'bg-white text-brand-700 shadow-sm' : 'text-brand-100 hover:bg-brand-600'}`}>🌈 Prompt Gen</button>
           </div>
           <div className="shrink-0 flex items-center mt-2 md:mt-0">
              <button onClick={() => setIsSettingsOpen(true)} className="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-full font-bold text-sm transition-all flex items-center gap-2 shadow-md border-2 border-slate-700 flex-wrap justify-center">
-               <span className="whitespace-nowrap">⚙️ Cài đặt</span>
-               <span className="text-brand-300 text-xs font-medium tracking-wide whitespace-nowrap hidden md:inline">(Lấy API key để sử dụng app)</span>
+               <span>⚙️ Cài đặt</span>
+               <span className="text-brand-300 text-xs font-medium tracking-wide hidden md:inline">(Lấy API key để sử dụng app)</span>
              </button>
           </div>
         </div>
@@ -159,7 +159,7 @@ function App() {
                     <div className="text-center py-8 px-2">
                       <span className="inline-block px-4 py-1 rounded-full bg-brand-100 text-brand-700 text-sm font-black uppercase mb-4">{lesson.level}</span>
                       <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">TOPIC OF THE DAY</p>
-                      <h1 className="text-4xl md:text-7xl font-black text-slate-800 font-display capitalize break-words overflow-wrap-anywhere leading-tight">{lesson.topic}</h1>
+                      <h1 className="text-4xl md:text-7xl font-black text-slate-800 font-display capitalize break-words break-all md:break-words leading-tight max-w-[100vw]">{lesson.topic}</h1>
                       <button 
                         onClick={() => exportLessonPlanToWord(lesson)} 
                         className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-full font-black text-lg shadow-lg hover:bg-blue-700 hover:-translate-y-1 transition-all mx-auto flex items-center gap-2"

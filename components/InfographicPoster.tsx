@@ -89,7 +89,7 @@ export const InfographicPoster: React.FC<InfographicPosterProps> = ({ lesson }) 
               </div>
               <div className="text-center md:text-left flex-1 min-w-0 px-2 md:px-0">
                  <div className="text-xs md:text-sm font-bold opacity-60 uppercase tracking-widest mb-1">Topic of the day</div>
-                 <h1 className={`text-3xl sm:text-4xl md:text-6xl font-black ${theme.accent} drop-shadow-sm font-display capitalize break-words overflow-wrap-anywhere`}>
+                 <h1 className={`text-3xl sm:text-4xl md:text-6xl font-black ${theme.accent} drop-shadow-sm font-display capitalize break-words break-all md:break-words`}>
                     {topic}
                  </h1>
               </div>

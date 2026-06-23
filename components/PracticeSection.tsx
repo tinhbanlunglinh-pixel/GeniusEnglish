@@ -125,9 +125,9 @@ const FillBlankCard: React.FC<{ q: FillInputQ, index: number, onAnswer: (correct
                 <span className="bg-blue-100 text-blue-700 font-black px-3 py-1 rounded-lg shrink-0 text-sm">Câu {index}</span>
                 <p className="font-bold text-base md:text-lg break-words flex-1 min-w-0 leading-snug">{q.question.replace('___', '______')}</p>
             </div>
-            <div className="flex gap-2 relative z-10">
-                <input type="text" value={input} onChange={e => setInput(e.target.value)} disabled={submitted} placeholder="Nhập từ còn thiếu..." className="flex-1 p-4 border-2 rounded-xl font-bold focus:border-blue-500 outline-none" />
-                {!submitted && <button onClick={check} className="bg-blue-500 text-white px-8 rounded-xl font-black hover:bg-blue-600 transition-all">Check</button>}
+            <div className="flex flex-col sm:flex-row gap-2 relative z-10">
+                <input type="text" value={input} onChange={e => setInput(e.target.value)} disabled={submitted} placeholder="Nhập từ còn thiếu..." className="flex-1 min-w-0 p-4 border-2 rounded-xl font-bold focus:border-blue-500 outline-none" />
+                {!submitted && <button onClick={check} className="bg-blue-500 text-white px-8 py-4 sm:py-0 rounded-xl font-black hover:bg-blue-600 transition-all shrink-0">Check</button>}
             </div>
             <FeedbackDisplay status={status === 'idle' ? null : status} explanation={q.explanation} />
             {submitted && status === 'wrong' && <p className="mt-2 text-green-700 font-bold">Đáp án: {q.correctAnswer}</p>}
@@ -299,7 +299,7 @@ export const PracticeSection: React.FC<{ content: PracticeContent }> = ({ conten
                                 window.scrollTo({top: 0, behavior: 'smooth'}); 
                             }, 100);
                         }} 
-                        className="bg-brand-500 text-brand-900 px-20 py-8 rounded-[3rem] font-black text-3xl shadow-2xl transform hover:-translate-y-2 hover:bg-brand-400 transition-all border-b-8 border-brand-700 active:translate-y-0 active:border-b-0"
+                        className="bg-brand-500 text-brand-900 px-6 py-4 md:px-20 md:py-8 rounded-[2rem] md:rounded-[3rem] font-black text-xl md:text-3xl shadow-2xl transform hover:-translate-y-2 hover:bg-brand-400 transition-all border-b-8 border-brand-700 active:translate-y-0 active:border-b-0 w-full md:w-auto break-words"
                     >
                         🏁 XEM GIẤY CHỨNG NHẬN
                     </button>
@@ -386,13 +386,13 @@ export const PracticeSection: React.FC<{ content: PracticeContent }> = ({ conten
                     </div>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-6 w-full max-w-2xl">
-                        <button onClick={downloadCertificate} className="flex-1 py-6 bg-emerald-500 text-white px-10 rounded-[2rem] font-black text-2xl shadow-2xl hover:bg-emerald-600 transition-all flex items-center justify-center gap-4 transform hover:-translate-y-2 border-b-8 border-emerald-700 active:translate-y-0 active:border-b-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    <div className="flex flex-col sm:flex-row gap-4 md:gap-6 w-full max-w-2xl mt-8">
+                        <button onClick={downloadCertificate} className="flex-1 py-4 md:py-6 bg-emerald-500 text-white px-4 md:px-10 rounded-[2rem] font-black text-lg md:text-2xl shadow-2xl hover:bg-emerald-600 transition-all flex items-center justify-center gap-2 md:gap-4 transform hover:-translate-y-2 border-b-4 md:border-b-8 border-emerald-700 active:translate-y-0 active:border-b-0 break-words text-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="md:w-8 md:h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                             TẢI CHỨNG NHẬN
                         </button>
-                        <button onClick={() => { setIsFinished(false); setIsStarted(false); setScoreMap({}); setName(''); window.scrollTo({top: 0, behavior: 'smooth'}); }} className="flex-1 py-6 bg-slate-200 text-slate-600 px-10 rounded-[2rem] font-black text-2xl shadow-xl hover:bg-slate-300 transition-all border-b-8 border-slate-400 active:translate-y-0 active:border-b-0">
-                            🔄 LÀM BÀI TẬP KHÁC
+                        <button onClick={() => { setIsFinished(false); setIsStarted(false); setScoreMap({}); setName(''); window.scrollTo({top: 0, behavior: 'smooth'}); }} className="flex-1 py-4 md:py-6 bg-slate-200 text-slate-600 px-4 md:px-10 rounded-[2rem] font-black text-lg md:text-2xl shadow-xl hover:bg-slate-300 transition-all border-b-4 md:border-b-8 border-slate-400 active:translate-y-0 active:border-b-0 break-words text-center">
+                            🔄 BÀI TẬP KHÁC
                         </button>
                     </div>
                     {answeredCount < totalQuestions && (
