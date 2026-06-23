@@ -69,8 +69,8 @@ function App() {
 
   return (
     <div className="min-h-screen bg-brand-50 flex flex-col font-sans overflow-x-hidden w-full max-w-[100vw]">
-      <header className="bg-brand-400 border-b-4 border-brand-500 sticky top-0 z-50 shadow-md">
-        <div className="max-w-7xl mx-auto px-3 py-3 md:py-0 md:h-20 flex flex-col md:flex-row items-center justify-between gap-3 md:gap-0">
+      <header className="bg-brand-400 border-b-2 md:border-b-4 border-brand-500 sticky top-0 z-50 shadow-md">
+        <div className="max-w-7xl mx-auto px-2 py-2 md:py-0 md:h-20 flex flex-col md:flex-row items-center justify-between gap-2 md:gap-0">
           <div className="flex items-center gap-3 shrink-0">
             <div className="w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center cursor-pointer select-none overflow-hidden border-2 border-brand-100" onClick={() => setActiveTab('planner')}>
               <img src="https://i.postimg.cc/FRgG3qSw/409332660-1038772744108136-6635348450087051296-n.jpg" alt="Cô Lợi" className="w-full h-full object-cover" />
@@ -93,7 +93,7 @@ function App() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 py-6 md:py-10 flex-grow w-full relative">
+      <main className="max-w-7xl mx-auto px-2 md:px-4 py-4 md:py-10 flex-grow w-full relative min-w-0">
         {/* Tab Lesson Planner - Persist State using hidden */}
         <div className={activeTab === 'planner' ? 'block' : 'hidden'}>
             <div className="w-full">
@@ -171,14 +171,14 @@ function App() {
                     <CartoonGenerator topic={lesson.topic} />
                     <InfographicPoster lesson={lesson} />
                     
-                    <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-xl overflow-hidden border-4 border-slate-100">
-                        <div className="bg-brand-400 p-5 md:p-8 border-b-4 border-brand-500">
-                            <h2 className="text-3xl md:text-4xl font-black text-brand-900 font-display">Kiến thức & Thực hành</h2>
+                    <div className="bg-white rounded-[1.5rem] md:rounded-[2.5rem] shadow-xl overflow-hidden border-2 md:border-4 border-slate-100 w-full min-w-0">
+                        <div className="bg-brand-400 p-4 md:p-8 border-b-2 md:border-b-4 border-brand-500">
+                            <h2 className="text-2xl md:text-4xl font-black text-brand-900 font-display">Kiến thức & Thực hành</h2>
                         </div>
-                        <div className="p-4 md:p-12 space-y-8 md:space-y-12">
+                        <div className="p-3 md:p-12 space-y-8 md:space-y-12">
                             <VocabularySection items={lesson.vocabulary} />
                             
-                            <div className="bg-brand-50 border-l-4 md:border-l-8 border-brand-400 p-5 md:p-8 rounded-r-xl">
+                            <div className="bg-brand-50 border-l-4 md:border-l-8 border-brand-400 p-4 md:p-8 rounded-r-xl">
                                 <h3 className="text-sm font-black text-brand-600 uppercase mb-2">Ngữ pháp (Tiếng Việt)</h3>
                                 <p className="text-xl md:text-2xl font-bold font-display text-slate-700 break-words">{lesson.grammar.explanation}</p>
                                 <div className="mt-4 space-y-2">
